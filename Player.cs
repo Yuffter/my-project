@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     //スタート位置の座標
     readonly Vector3 start_position = new Vector3(-9.5f, -0.2f,0);
     readonly float slowest_speed = 0.5f;
+    readonly float slowest_speed_x = 0;
     // Start is called before the first frame update
     void Start()
     {
