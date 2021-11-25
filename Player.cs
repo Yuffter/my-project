@@ -5,16 +5,22 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody rb;
-    public float power = 10;
-    public float jump_power = 20;
-    //���i�W�����v�܂łł��邩
-    public int max_jump_count = 2;
+    //左右移動の力
+    [SerializeField] float power = 10;
+    //ジャンプ力
+    [SerializeField] float jump_power = 20;
+    //何段ジャンプまでできるか
+    [SerializeField] int max_jump_count = 2;
     int jump_count = 0;
+    //outになるy座標
+    readonly float border_y = -9.0f;
+    //スタート位置の座標
+    readonly Vector3 start_position = new Vector3(-9.5f, -0.2f,0);
+    readonly float slowest_speed = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("hello");
-        rb = GetComponent<Rigidbody>();
+        rb = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -32,13 +38,29 @@ public class Player : MonoBehaviour
         {
             jump_count++;
             if (jump_count <= max_jump_count) rb.AddForce(new Vector3(0, jump_power, 0));
-            
         }
-        if (transform.position.y < -9)
+        /*
+        **********コントローラーの操作*************
+        float x = Input.GetAxis("Horizontal");
+        rb.AddForce(new Vector3(x * power,0,0));  //パターン1
+        
+        if (x > 0) {      //パターン2
+            rb.AddForce(Vector3.Right * power);
+        }
+        else if (x < 0) {
+            rb.AddForce(Vector3.Left * power);
+        }
+        
+        if (Input.GetButtonDown("Jump")) {
+            jump_count++;
+            if (jump_count <= max_jump_count) rb.AddForce(Vector3.Up * jump_power);
+        }
+        */
+        if (transform.position.y < border_y)
         {
-            transform.position = new Vector3(-9.5f, -0.2f,0);
+            transform.position = start_position;
         }
-        if (rb.velocity.x == 0 && Mathf.Abs(rb.velocity.y) < 0.5f)
+        if (rb.velocity.x == 0 && Mathf.Abs(rb.velocity.y) < slowest_speed)
         {
             GetComponent<TrailRenderer>().enabled = false;
         }
