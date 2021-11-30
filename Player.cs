@@ -70,6 +70,10 @@ public class Player : MonoBehaviour
             GetComponent<TrailRenderer>().enabled = true;
         }
     }
+    
+    private void FixedUpdate() {
+        
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
