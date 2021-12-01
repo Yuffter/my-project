@@ -27,36 +27,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.AddForce(new Vector3(power, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.AddForce(new Vector3(-power, 0, 0));
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Jump"))
         {
             jump_count++;
             if (jump_count <= max_jump_count) rb.AddForce(new Vector3(0, jump_power, 0));
         }
-        /*
-        **********コントローラーの操作*************
-        float x = Input.GetAxis("Horizontal");
-        rb.AddForce(new Vector3(x * power,0,0));  //パターン1
-        
-        if (x > 0) {      //パターン2
-            rb.AddForce(Vector3.Right * power);
-        }
-        else if (x < 0) {
-            rb.AddForce(Vector3.Left * power);
-        }
-        
-        if (Input.GetButtonDown("Jump")) {
-            jump_count++;
-            if (jump_count <= max_jump_count) rb.AddForce(Vector3.Up * jump_power);
-        }
-        */
         if (transform.position.y < border_y)
         {
             transform.position = start_position;
@@ -72,7 +47,9 @@ public class Player : MonoBehaviour
     }
     
     private void FixedUpdate() {
+        float x = Input.GetAxis("Horizontal");
         
+        rb.AddForce(new Vector3(x * power,0,0)); 
     }
 
     private void OnCollisionEnter(Collision collision)
